@@ -1,0 +1,23 @@
+html,
+body {
+    height: 100%;
+}
+
+.container {
+    display: grid;
+    height: 100%;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+}
+
+.scoreboard {
+    outline: solid;
+    position: relative;
+}
+
+.score {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
