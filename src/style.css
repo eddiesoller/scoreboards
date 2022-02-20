@@ -5,13 +5,13 @@ body {
 
 .container {
     display: grid;
-    height: 100%;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
+    height: calc(100% - 15px);
+    gap: 10px 10px;
 }
 
 .scoreboard {
     outline: solid;
+    border-radius: 10px;
     position: relative;
 }
 
