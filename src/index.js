@@ -4,7 +4,8 @@ let addButton;
 let count = 0;
 
 window.addEventListener('load', () => {
-    createContainer();
+    document.body.appendChild(createHeader());
+    document.body.appendChild(createContainer());
 })
 
 window.addEventListener('resize', () => {
@@ -15,10 +16,49 @@ document.addEventListener('keypress', () => {
     createScoreboard()
 });
 
+function createHeader() {
+    const header = document.createElement('div');
+    header.classList.add('header');
+    header.appendChild(createMenu());
+    header.appendChild(createHeaderSpan());
+    header.appendChild(createAddButton());
+    return header;
+}
+
+function createHeaderSpan() {
+    const span = document.createElement('span');
+    span.textContent = 'SCOREBOARDS';
+    return span;
+}
+
+function createMenu() {
+    const menu = document.createElement('div');
+    menu.classList.add('menu');
+    menu.classList.add('headerButton');
+    menu.appendChild(createMenuIcon());
+    return menu;
+}
+
+function createMenuIcon() {
+    const icon = document.createElement('i');
+    icon.classList = 'fa fa-bars';
+    return icon;
+}
+
+function createAddButton() {
+    const addButton = document.createElement('div');
+    addButton.classList.add('addButton');
+    addButton.classList.add('headerButton');
+    addButton.textContent = '+';
+    addButton.addEventListener('click', () => createScoreboard());
+    return addButton;
+}
+
 function createContainer() {
     container = document.createElement('div');
     container.classList.add('container');
-    document.body.appendChild(container);
+    return container;
+    // document.body.appendChild(container);
 }
 
 function createScoreboard() {
