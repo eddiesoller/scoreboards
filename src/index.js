@@ -1,4 +1,5 @@
 const AUTO = "auto ";
+const NOW = new Date();
 let container;
 let addButton;
 let count = 0;
@@ -14,6 +15,7 @@ window.addEventListener('resize', () => {
 
 document.addEventListener('keypress', () => {
     container.appendChild(createScoreboard());
+    adjustGrid();
 });
 
 function createHeader() {
@@ -51,7 +53,7 @@ function createAddButton() {
     addButton.classList.add('addButton');
     addButton.classList.add('headerButton');
     addButton.textContent = '+';
-    addButton.addEventListener('click', () => container.appendChild(createScoreboard()));
+    addButton.addEventListener('click', () => seedGames());
     return addButton;
 }
 
@@ -61,34 +63,67 @@ function createContainer() {
     return container;
 }
 
-function createScoreboard() {
+function createNbaScoreBoard(game) {
     const scoreboard = document.createElement('div');
     scoreboard.classList.add('scoreboard');
-    scoreboard.appendChild(createTime());
-    scoreboard.appendChild(createScore());
+    scoreboard.appendChild(createTime(game.period.current, game.clock));
+    scoreboard.appendChild(createScore(game.vTeam.triCode, game.vTeam.score, game.hTeam.triCode, game.hTeam.score));
     count++;
-    adjustGrid()
     return scoreboard;
 }
 
-function createTime() {
+function createScoreboard() {
+    const scoreboard = document.createElement('div');
+    scoreboard.classList.add('scoreboard');
+    scoreboard.appendChild(createRandomTime());
+    scoreboard.appendChild(createRandomScore());
+    count++;
+    return scoreboard;
+}
+
+function createRandomTime() {
     const time = document.createElement('div');
     time.classList.add('time');
     time.textContent = randomTime();
     return time;
 }
 
-function createScore() {
+function createTime(period, clock) {
+    if (!clock) {
+        clock = "00:00";
+    }
+    const time = document.createElement('div');
+    time.classList.add('time');
+    time.textContent = 'Q' + period + ' ' + clock;
+    return time;
+}
+
+function createScore(awayTeam, awayScore, homeTeam, homeScore) {
     const score = document.createElement('div');
     score.classList.add('score');
-    // score.textContent = randomScore();
-    score.appendChild(createTeamScore());
+    score.appendChild(createTeamScore(awayTeam, awayScore));
     score.appendChild(createAt());
-    score.appendChild(createTeamScore());
+    score.appendChild(createTeamScore(homeTeam, homeScore));
     return score;
 }
 
-function createTeamScore() {
+function createRandomScore() {
+    const score = document.createElement('div');
+    score.classList.add('score');
+    score.appendChild(createRandomTeamScore());
+    score.appendChild(createAt());
+    score.appendChild(createRandomTeamScore());
+    return score;
+}
+
+function createTeamScore(team, score) {
+    const span = document.createElement('span');
+    span.classList.add('scoreSpan');
+    span.textContent = team + ' ' + score;
+    return span;
+}
+
+function createRandomTeamScore() {
     const span = document.createElement('span');
     span.classList.add('scoreSpan');
     span.textContent = randomTeam() + ' ' + randomInt(10, 99);
@@ -120,6 +155,18 @@ function adjustGrid() {
     }
 
     container.style.gridTemplateColumns = AUTO.repeat(optimalColumns.value);
+}
+
+function seedGames() {
+    let games = getNbaData(yyyyMmDd());
+    if (!games) {
+        games = getNbaData("20220215");
+    }
+    console.log('games', games);
+    for (i = 0; i < games.length; i++) {
+        container.appendChild(createNbaScoreBoard(games[i]));
+    }
+    adjustGrid();
 }
 
 function factorize(num) {
@@ -158,4 +205,20 @@ function pad(num, size) {
     num = num.toString();
     while (num.length < size) num = "0" + num;
     return num;
+}
+
+function yyyyMmDd() {
+    return NOW.getFullYear() * 1e4 + (NOW.getMonth() + 1) * 100 + NOW.getDate() + '';
+}
+
+function getNbaData(date) {
+    let games;
+    const settings = {
+        "url": `https://data.nba.net/prod/v2/${date}/scoreboard.json`,
+        "method": "GET",
+        "timeout": 0,
+        "async": false,
+    }
+    $.ajax(settings).done((response) => games = response.games);
+    return games;
 }
