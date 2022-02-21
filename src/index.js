@@ -81,8 +81,25 @@ function createTime() {
 function createScore() {
     const score = document.createElement('div');
     score.classList.add('score');
-    score.textContent = randomScore();
+    // score.textContent = randomScore();
+    score.appendChild(createTeamScore());
+    score.appendChild(createAt());
+    score.appendChild(createTeamScore());
     return score;
+}
+
+function createTeamScore() {
+    const span = document.createElement('span');
+    span.classList.add('scoreSpan');
+    span.textContent = randomTeam() + ' ' + randomInt(10, 99);
+    return span;
+}
+
+function createAt() {
+    const span = document.createElement('span');
+    span.classList.add('scoreSpan');
+    span.textContent = " @ ";
+    return span;
 }
 
 function adjustGrid() {
