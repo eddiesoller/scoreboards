@@ -16,3 +16,7 @@ function pad(num, size) {
 function yyyyMmDd() {
     return NOW.getFullYear() * 1e4 + (NOW.getMonth() + 1) * 100 + NOW.getDate() + '';
 }
+
+function hyphenatedYyyyMmDd() {
+    return NOW.getFullYear() * 1e4 + '-' + (NOW.getMonth() + 1) * 100 + '-' + NOW.getDate() + '';
+}
