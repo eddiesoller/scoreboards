@@ -13,7 +13,7 @@ window.addEventListener('resize', () => {
 })
 
 document.addEventListener('keypress', () => {
-    createScoreboard()
+    container.appendChild(createScoreboard());
 });
 
 function createHeader() {
@@ -27,6 +27,7 @@ function createHeader() {
 
 function createHeaderSpan() {
     const span = document.createElement('span');
+    span.classList.add('centerSpan')
     span.textContent = 'SCOREBOARDS';
     return span;
 }
@@ -50,7 +51,7 @@ function createAddButton() {
     addButton.classList.add('addButton');
     addButton.classList.add('headerButton');
     addButton.textContent = '+';
-    addButton.addEventListener('click', () => createScoreboard());
+    addButton.addEventListener('click', () => container.appendChild(createScoreboard()));
     return addButton;
 }
 
@@ -58,16 +59,23 @@ function createContainer() {
     container = document.createElement('div');
     container.classList.add('container');
     return container;
-    // document.body.appendChild(container);
 }
 
 function createScoreboard() {
     const scoreboard = document.createElement('div');
     scoreboard.classList.add('scoreboard');
+    scoreboard.appendChild(createTime());
     scoreboard.appendChild(createScore());
-    container.appendChild(scoreboard);
     count++;
     adjustGrid()
+    return scoreboard;
+}
+
+function createTime() {
+    const time = document.createElement('div');
+    time.classList.add('time');
+    time.textContent = randomTime();
+    return time;
 }
 
 function createScore() {
@@ -110,13 +118,27 @@ function getScoreBoardRatio(columns) {
 }
 
 function randomScore() {
-    return randomTeam() + ' ' + randomNumber() + ' ' + '@' + '' + randomTeam() + ' ' + randomNumber();
+    return randomTeam() + ' ' + randomInt(10, 99) + ' ' + '@' + '' + randomTeam() + ' ' + randomInt(10, 99);
 }
 
 function randomTeam() {
     return Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 3).toUpperCase();
 }
 
-function randomNumber() {
-    return Math.max(10, Math.floor(Math.random() * 100));
+function randomTime() {
+    return formatTime("Q" + randomInt(1, 4), randomInt(0, 12), randomInt(0, 59));
+}
+
+function formatTime(period, minutes, seconds) {
+    return period + " " + pad(minutes, 2) + ":" + pad(seconds, 2);
+}
+
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+function pad(num, size) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
 }

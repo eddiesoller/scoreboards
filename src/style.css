@@ -14,7 +14,7 @@ body {
     user-select: none;
 }
 
-.header>span {
+.centerSpan {
     top: 50%;
     transform: translateY(-50%);
     vertical-align: middle;
@@ -50,6 +50,14 @@ body {
     outline: solid;
     border-radius: 10px;
     position: relative;
+}
+
+.time {
+    display: inline-block;
+    border-right: solid;
+    border-bottom: solid;
+    border-radius: 10px 0;
+    padding: 2px;
 }
 
 .score {
