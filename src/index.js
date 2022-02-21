@@ -64,7 +64,11 @@ function createContainer() {
 }
 
 function createNbaScoreBoard(game) {
+    if (document.getElementById(game.gameId)) {
+        return;
+    }
     const scoreboard = document.createElement('div');
+    scoreboard.id = game.gameId;
     scoreboard.classList.add('scoreboard');
     scoreboard.appendChild(createTime(game.period.current, game.clock));
     scoreboard.appendChild(createScore(game.vTeam.triCode, game.vTeam.score, game.hTeam.triCode, game.hTeam.score));
@@ -74,6 +78,7 @@ function createNbaScoreBoard(game) {
 
 function createScoreboard() {
     const scoreboard = document.createElement('div');
+    scoreboard.id = count;
     scoreboard.classList.add('scoreboard');
     scoreboard.appendChild(createRandomTime());
     scoreboard.appendChild(createRandomScore());
