@@ -37,7 +37,7 @@ function createHeaderSpan() {
 function createMenu() {
     const menu = document.createElement('div');
     menu.classList.add('menu');
-    menu.classList.add('headerButton');
+    menu.classList.add('button');
     menu.appendChild(createMenuIcon());
     return menu;
 }
@@ -51,7 +51,7 @@ function createMenuIcon() {
 function createAddButton() {
     const addButton = document.createElement('div');
     addButton.classList.add('addButton');
-    addButton.classList.add('headerButton');
+    addButton.classList.add('button');
     addButton.textContent = '+';
     addButton.addEventListener('click', () => seedGames());
     return addButton;
@@ -71,6 +71,7 @@ function createNbaScoreBoard(game) {
     scoreboard.id = game.gameId;
     scoreboard.classList.add('scoreboard');
     scoreboard.appendChild(createTime(game.period.current, game.clock));
+    scoreboard.appendChild(createCloseButton(game.gameId));
     scoreboard.appendChild(createScore(game.vTeam.triCode, game.vTeam.score, game.hTeam.triCode, game.hTeam.score));
     count++;
     return scoreboard;
@@ -81,6 +82,7 @@ function createScoreboard() {
     scoreboard.id = count;
     scoreboard.classList.add('scoreboard');
     scoreboard.appendChild(createRandomTime());
+    scoreboard.appendChild(createCloseButton(count));
     scoreboard.appendChild(createRandomScore());
     count++;
     return scoreboard;
@@ -88,7 +90,7 @@ function createScoreboard() {
 
 function createRandomTime() {
     const time = document.createElement('div');
-    time.classList.add('time');
+    time.classList.add('time', 'scoreboardCorner');
     time.textContent = randomTime();
     return time;
 }
@@ -98,9 +100,22 @@ function createTime(period, clock) {
         clock = "00:00";
     }
     const time = document.createElement('div');
-    time.classList.add('time');
+    time.classList.add('time', 'scoreboardCorner');
     time.textContent = 'Q' + period + ' ' + clock;
     return time;
+}
+
+function createCloseButton(parentId) {
+    const closeButton = document.createElement('div');
+    closeButton.classList.add('closeButton', 'scoreboardCorner', 'button');
+    closeButton.textContent = 'X';
+    closeButton.addEventListener('click', (foo) => {
+        const scoreboard = document.getElementById(parentId);
+        scoreboard.remove();
+        count--;
+        adjustView();
+    })
+    return closeButton;
 }
 
 function createScore(awayTeam, awayScore, homeTeam, homeScore) {
@@ -144,7 +159,7 @@ function createAt() {
 
 function adjustView() {
     adjustGrid();
-    adjustTime();
+    adjustScoreboardCorner();
     adjustScoreFontSize();
 }
 
@@ -168,7 +183,7 @@ function adjustGrid() {
     container.style.gridTemplateColumns = AUTO.repeat(optimalColumns.value);
 }
 
-function adjustTime() {
+function adjustScoreboardCorner() {
     const scoreboard = document.getElementsByClassName('scoreboard')[0];
     if (!scoreboard) {
         return;
@@ -176,11 +191,11 @@ function adjustTime() {
 
     const time = document.getElementsByClassName('time')[0];
     let fontSize = Math.min(scoreboard.offsetHeight, 16);
-    setTimeFontSize(fontSize);
+    setScoreboardCornerFontSize(fontSize);
 
     while (timeTooBig(time, scoreboard) && fontSize > 1) {
         fontSize--;
-        setTimeFontSize(fontSize);
+        setScoreboardCornerFontSize(fontSize);
     }
 }
 
@@ -188,8 +203,8 @@ function timeTooBig(time, scoreboard) {
     return scoreboard.getBoundingClientRect().bottom - time.getBoundingClientRect().bottom < 5;
 }
 
-function setTimeFontSize(fontSize) {
-    const times = document.getElementsByClassName('time');
+function setScoreboardCornerFontSize(fontSize) {
+    const times = document.getElementsByClassName('scoreboardCorner');
     for (i = 0; i < times.length; i++) {
         times[i].style.fontSize = fontSize + 'px';
     }
