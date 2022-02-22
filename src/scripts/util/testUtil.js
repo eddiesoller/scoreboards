@@ -2,7 +2,7 @@ function seedGames() {
     seedNbaGames();
     seedNflGames();
     seedNhlGames();
-    adjustView();
+    adjustView(homeContainer);
 }
 
 function seedNbaGames() {
@@ -14,7 +14,7 @@ function seedNbaGames() {
     for (i = 0; i < games.length; i++) {
         const nbaScoreboard = createNbaScoreboard(games[i]);
         if (nbaScoreboard) {
-            container.appendChild(nbaScoreboard);
+            addToContainer(homeContainer, nbaScoreboard);
         }
     }
 }
@@ -28,7 +28,7 @@ function seedNflGames() {
     for (i = 0; i < games.length; i++) {
         const nflScoreboard = createNflScoreboard(games[i]);
         if (nflScoreboard) {
-            container.appendChild(nflScoreboard);
+            addToContainer(homeContainer, nflScoreboard);
         }
     }
 }
@@ -42,13 +42,13 @@ function seedNhlGames() {
     for (i = 0; i < games.length; i++) {
         const nhlScoreboard = createNhlScoreboard(games[i]);
         if (nhlScoreboard) {
-            container.appendChild(nhlScoreboard);
+            addToContainer(homeContainer, nhlScoreboard);
         }
     }
 }
 
 function createRandomScoreboard() {
-    return createScoreboard(count, 'Q', randomInt(1, 4), pad(randomInt(0, 12), 2) + ':' + pad(randomInt(0, 59), 2), randomTeam(), randomInt(10, 99), randomTeam(), randomInt(10, 99));
+    return createScoreboard(homeContainer.count, 'Q', randomInt(1, 4), pad(randomInt(0, 12), 2) + ':' + pad(randomInt(0, 59), 2), randomTeam(), randomInt(10, 99), randomTeam(), randomInt(10, 99));
 }
 
 function randomTeam() {

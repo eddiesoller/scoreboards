@@ -8,7 +8,6 @@ function createScoreboard(id, periodType, periodNumber, clock, awayTeam, awaySco
     scoreboard.appendChild(createTime(periodType, periodNumber, clock));
     scoreboard.appendChild(createCloseButton(id));
     scoreboard.appendChild(createScore(awayTeam, awayScore, homeTeam, homeScore));
-    count++;
     return scoreboard;
 }
 
@@ -58,8 +57,8 @@ function createCloseButton(parentId) {
     closeButton.addEventListener('click', (foo) => {
         const scoreboard = document.getElementById(parentId);
         scoreboard.remove();
-        count--;
-        adjustView();
+        homeContainer.count--;
+        adjustView(homeContainer);
     })
     return closeButton;
 }

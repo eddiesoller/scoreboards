@@ -1,11 +1,18 @@
-function adjustView() {
-    adjustGrid();
-    adjustScoreboardCorner();
-    adjustScoreFontSize();
+function adjustAllViews() {
+    const containers = document.getElementsByClassName('container');
+    for (i = 0; i < container.length; i++) {
+        adjustView(containers[i]);
+    }
 }
 
-function adjustGrid() {
-    let factors = factorize(count);
+function adjustView(container) {
+    adjustGrid(container);
+    adjustScoreboardCorner(container);
+    adjustScoreFontSize(container);
+}
+
+function adjustGrid(container) {
+    let factors = factorize(container.count);
     let optimalColumns = {
         value: 1,
         ratio: 0,
@@ -13,7 +20,7 @@ function adjustGrid() {
 
     for (i = 1; i < factors.length - 1; i++) {
         const columns = factors[i];
-        const scoreboardRatio = getScoreboardRatio(columns);
+        const scoreboardRatio = getScoreboardRatio(container, columns);
 
         if (scoreboardRatio > optimalColumns.ratio) {
             optimalColumns.value = columns;
@@ -24,19 +31,19 @@ function adjustGrid() {
     container.style.gridTemplateColumns = AUTO.repeat(optimalColumns.value);
 }
 
-function adjustScoreboardCorner() {
-    const scoreboard = document.getElementsByClassName('scoreboard')[0];
+function adjustScoreboardCorner(container) {
+    const scoreboard = container.querySelector('.scoreboard')[0];
     if (!scoreboard) {
         return;
     }
 
-    const time = document.getElementsByClassName('time')[0];
+    const time = container.querySelector('.time')[0];
     let fontSize = Math.min(scoreboard.offsetHeight, 16);
-    setScoreboardCornerFontSize(fontSize);
+    setScoreboardCornerFontSize(container, fontSize);
 
     while (timeTooBig(time, scoreboard) && fontSize > 1) {
         fontSize--;
-        setScoreboardCornerFontSize(fontSize);
+        setScoreboardCornerFontSize(container, fontSize);
     }
 }
 
@@ -44,23 +51,23 @@ function timeTooBig(time, scoreboard) {
     return scoreboard.getBoundingClientRect().bottom - time.getBoundingClientRect().bottom < 5;
 }
 
-function setScoreboardCornerFontSize(fontSize) {
-    const times = document.getElementsByClassName('scoreboardCorner');
+function setScoreboardCornerFontSize(container, fontSize) {
+    const times = container.querySelector('.scoreboardCorner');
     for (i = 0; i < times.length; i++) {
         times[i].style.fontSize = fontSize + 'px';
     }
 }
 
-function adjustScoreFontSize() {
-    const scoreboards = document.getElementsByClassName('scoreboard');
+function adjustScoreFontSize(container) {
+    const scoreboards = container.querySelector('.scoreboard');
     if (!scoreboards[0]) {
         return;
     }
-    const scores = document.getElementsByClassName('score');
+    const scores = container.querySelector('.score');
     const width = scoreboards[0].offsetWidth;
     const height = scoreboards[0].offsetHeight;
     let fontSize = Math.min(width, height, 50);
-    setScoreFontSize(fontSize);
+    setScoreFontSize(container, fontSize);
 
     for (i = 0; i < scores.length; i++) {
         if (fontSize < 10) {
@@ -68,7 +75,7 @@ function adjustScoreFontSize() {
         }
         if (scoreTooBig(scores[i], scoreboards[i])) {
             fontSize--;
-            setScoreFontSize(fontSize);
+            setScoreFontSize(container, fontSize);
             i = 0;
         }
     }
@@ -86,14 +93,14 @@ function scoreTooBig(score, scoreboard) {
     return false;
 }
 
-function setScoreFontSize(fontSize) {
-    const spans = document.getElementsByClassName('scoreSpan');
+function setScoreFontSize(container, fontSize) {
+    const spans = container.querySelector('.scoreSpan');
     for (i = 0; i < spans.length; i++) {
         spans[i].style.fontSize = fontSize + 'px';
     }
 }
 
-function getScoreboardRatio(columns) {
-    const rows = count / columns;
+function getScoreboardRatio(container, columns) {
+    const rows = container.count / columns;
     return (container.offsetWidth / columns) / (container.offsetHeight / rows);
 }

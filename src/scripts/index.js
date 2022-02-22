@@ -1,20 +1,20 @@
 const AUTO = "auto ";
-let container;
+let homeContainer;
 let addButton;
-let count = 0;
 
 window.addEventListener('load', () => {
     document.body.appendChild(createHeader());
-    document.body.appendChild(createContainer());
+    homeContainer = createHomeContainer();
+    document.body.appendChild(homeContainer);
 })
 
 window.addEventListener('resize', () => {
-    adjustView();
+    adjustAllViews();
 })
 
 document.addEventListener('keypress', () => {
-    container.appendChild(createRandomScoreboard());
-    adjustView();
+    addToContainer(homeContainer, createRandomScoreboard());
+    adjustView(homeContainer);
 });
 
 function createHeader() {
@@ -61,7 +61,14 @@ function addClick() {
 }
 
 function createContainer() {
-    container = document.createElement('div');
+    const container = document.createElement('div');
     container.classList.add('container');
     return container;
+}
+
+function createHomeContainer() {
+    const homeContainer = createContainer();
+    homeContainer.id = 'homeContainer';
+    homeContainer.count = 0;
+    return homeContainer;
 }
