@@ -1,5 +1,6 @@
 function seedGames() {
     seedNbaGames();
+    seedNflGames();
     seedNhlGames();
     adjustView();
 }
@@ -14,6 +15,20 @@ function seedNbaGames() {
         const nbaScoreboard = createNbaScoreboard(games[i]);
         if (nbaScoreboard) {
             container.appendChild(nbaScoreboard);
+        }
+    }
+}
+
+function seedNflGames() {
+    let games = getNflGames();
+    if (!games || games.length === 0) {
+        console.log('no nfl games today');
+        games = getNflGames('20220102');
+    }
+    for (i = 0; i < games.length; i++) {
+        const nflScoreboard = createNflScoreboard(games[i]);
+        if (nflScoreboard) {
+            container.appendChild(nflScoreboard);
         }
     }
 }
