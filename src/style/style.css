@@ -33,7 +33,7 @@ body {
     display: block;
 }
 
-.addButton {
+.upperRightButton {
     float: right;
     height: 100%;
     width: 50px;

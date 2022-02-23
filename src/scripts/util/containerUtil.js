@@ -60,8 +60,10 @@ function showContainer(container) {
     adjustView(container);
     if (container === homeContainer) {
         document.getElementById('homeButton').classList.add('disabledButton');
+        document.getElementById('refreshButton').style.display = 'none';
     } else {
         document.getElementById('homeButton').classList.remove('disabledButton');
+        document.getElementById('refreshButton').style.display = 'block';
     }
 }
 

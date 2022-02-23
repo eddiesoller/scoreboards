@@ -34,7 +34,7 @@ function createHeader() {
     header.classList.add('header');
     header.appendChild(createHomeButton());
     header.appendChild(createHeaderSpan());
-    header.appendChild(createAddButton());
+    header.appendChild(createRefreshButton());
     return header;
 }
 
@@ -60,12 +60,18 @@ function createHomeButtonIcon() {
     return icon;
 }
 
-function createAddButton() {
-    const addButton = document.createElement('div');
-    addButton.classList.add('addButton', 'button');
-    addButton.textContent = '+';
-    addButton.addEventListener('click', () => addClick());
-    return addButton;
+function createRefreshButton() {
+    const refreshButton = document.createElement('div');
+    refreshButton.id = 'refreshButton';
+    refreshButton.classList.add('button', 'upperRightButton');
+    refreshButton.appendChild(createRefreshButtonIcon());
+    refreshButton.style.display = 'none';
+    refreshButton.addEventListener('click', () => {});
+    return refreshButton;
 }
 
-function addClick() {}
+function createRefreshButtonIcon() {
+    const icon = document.createElement('i');
+    icon.classList = 'fa fa-refresh';
+    return icon;
+}
