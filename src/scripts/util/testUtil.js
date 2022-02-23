@@ -1,5 +1,5 @@
 function createRandomScoreboard() {
-    return createScoreboard(homeContainer.count, 'Q', randomInt(1, 4), pad(randomInt(0, 12), 2) + ':' + pad(randomInt(0, 59), 2), randomTeam(), randomInt(10, 99), randomTeam(), randomInt(10, 99));
+    return createScoreboard(myScoresContainer.count, 'Q', randomInt(1, 4), pad(randomInt(0, 12), 2) + ':' + pad(randomInt(0, 59), 2), randomTeam(), randomInt(10, 99), randomTeam(), randomInt(10, 99));
 }
 
 function randomTeam() {

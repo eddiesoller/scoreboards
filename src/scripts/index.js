@@ -1,23 +1,23 @@
 const AUTO = "auto ";
+let myScoresContainer;
 let homeContainer;
-let leagueContainer;
 let nbaContainer;
 let nflContainer;
 let nhlContainer;
 
 window.addEventListener('load', () => {
     document.body.appendChild(createHeader());
-    leagueContainer = createLeagueContainer();
-    document.body.appendChild(leagueContainer);
-    homeContainer = createHomeContainer();
+    homeContainer = createHomeSectionContainer();
     document.body.appendChild(homeContainer);
+    myScoresContainer = createMyScoresContainer();
+    document.body.appendChild(myScoresContainer);
     nbaContainer = createNbaContainer();
     document.body.appendChild(nbaContainer);
     nflContainer = createNflContainer();
     document.body.appendChild(nflContainer);
     nhlContainer = createNhlContainer();
     document.body.appendChild(nhlContainer);
-    showContainer(leagueContainer);
+    showContainer(homeContainer);
 })
 
 window.addEventListener('resize', () => {
@@ -25,8 +25,8 @@ window.addEventListener('resize', () => {
 })
 
 document.addEventListener('keypress', () => {
-    addToContainer(homeContainer, createRandomScoreboard());
-    adjustView(homeContainer);
+    addToContainer(myScoresContainer, createRandomScoreboard());
+    adjustView(myScoresContainer);
 });
 
 function createHeader() {
@@ -56,7 +56,7 @@ function createMenu() {
 }
 
 function menuClick() {
-    showContainer(leagueContainer);
+    showContainer(homeContainer);
 }
 
 function createMenuIcon() {

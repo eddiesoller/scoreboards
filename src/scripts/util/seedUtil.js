@@ -1,8 +1,8 @@
 function seedLeagues(container) {
-    addToContainer(container, createHomeLeague());
-    addToContainer(container, createNbaLeague());
-    addToContainer(container, createNflLeague());
-    addToContainer(container, createNhlLeague());
+    addToContainer(container, createMyScoreboards());
+    addToContainer(container, createNbaHomeSection());
+    addToContainer(container, createNflHomeSection());
+    addToContainer(container, createNhlHomeSection());
 }
 
 function seedNbaGames(container) {

@@ -54,8 +54,8 @@ function createCloseButton(parentId) {
     closeButton.addEventListener('click', (foo) => {
         const scoreboard = document.getElementById(parentId);
         scoreboard.remove();
-        homeContainer.count--;
-        adjustView(homeContainer);
+        myScoresContainer.count--;
+        adjustView(myScoresContainer);
     })
     return closeButton;
 }

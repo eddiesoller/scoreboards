@@ -6,17 +6,17 @@ function createContainer() {
     return container;
 }
 
-function createHomeContainer() {
-    const homeContainer = createContainer();
-    homeContainer.id = 'homeContainer';
-    return homeContainer;
+function createMyScoresContainer() {
+    const myScoresContainer = createContainer();
+    myScoresContainer.id = 'myScoresContainer';
+    return myScoresContainer;
 }
 
-function createLeagueContainer() {
-    const leagueContainer = createContainer();
-    leagueContainer.id = 'leagueContainer';
-    seedLeagues(leagueContainer);
-    return leagueContainer;
+function createHomeSectionContainer() {
+    const homeContainer = createContainer();
+    homeContainer.id = 'homeContainer';
+    seedLeagues(homeContainer);
+    return homeContainer;
 }
 
 function createNbaContainer() {
@@ -58,7 +58,7 @@ function showContainer(container) {
         }
     }
     adjustView(container);
-    if (container === leagueContainer) {
+    if (container === homeContainer) {
         document.getElementById('menuButton').classList.add('disabledButton');
     } else {
         document.getElementById('menuButton').classList.remove('disabledButton');
