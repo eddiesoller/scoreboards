@@ -1,12 +1,9 @@
 function createScoreboard(id, periodType, periodNumber, clock, awayTeam, awayScore, homeTeam, homeScore) {
-    if (document.getElementById(id)) {
-        return;
-    }
     const scoreboard = document.createElement('div');
     scoreboard.id = id;
-    scoreboard.classList.add('scoreboard');
+    scoreboard.classList.add('containerSection', 'scoreboard');
     scoreboard.appendChild(createTime(periodType, periodNumber, clock));
-    scoreboard.appendChild(createCloseButton(id));
+    // scoreboard.appendChild(createCloseButton(id));
     scoreboard.appendChild(createScore(awayTeam, awayScore, homeTeam, homeScore));
     return scoreboard;
 }
@@ -41,18 +38,18 @@ function createNhlScoreboard(game) {
 }
 
 function createTime(periodType, periodNumber, clock) {
-    if (!clock || clock === 'Final') {
+    if (!clock || clock === 'Final' || clock === 'END') {
         clock = "00:00";
     }
     const time = document.createElement('div');
-    time.classList.add('time', 'scoreboardCorner');
+    time.classList.add('time', 'sectionCorner');
     time.textContent = periodType + periodNumber + ' ' + clock;
     return time;
 }
 
 function createCloseButton(parentId) {
     const closeButton = document.createElement('div');
-    closeButton.classList.add('closeButton', 'scoreboardCorner', 'button');
+    closeButton.classList.add('closeButton', 'sectionCorner', 'button');
     closeButton.textContent = 'X';
     closeButton.addEventListener('click', (foo) => {
         const scoreboard = document.getElementById(parentId);
@@ -65,7 +62,7 @@ function createCloseButton(parentId) {
 
 function createScore(awayTeam, awayScore, homeTeam, homeScore) {
     const score = document.createElement('div');
-    score.classList.add('score');
+    score.classList.add('score', 'containerSectionMainContent');
     score.appendChild(createTeamScore(awayTeam, awayScore));
     score.appendChild(createAt());
     score.appendChild(createTeamScore(homeTeam, homeScore));
@@ -74,14 +71,15 @@ function createScore(awayTeam, awayScore, homeTeam, homeScore) {
 
 function createTeamScore(team, score) {
     const span = document.createElement('span');
-    span.classList.add('scoreSpan');
+    span.classList.add('contentSpan', 'scoreSpan');
     span.textContent = team + ' ' + score;
     return span;
 }
 
 function createAt() {
     const span = document.createElement('span');
-    span.classList.add('scoreSpan');
-    span.textContent = " @ ";
+    span.classList.add('contentSpan', 'scoreSpan');
+    span.textContent = "@";
+    span.style.padding = '5px'
     return span;
 }

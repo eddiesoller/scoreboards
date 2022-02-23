@@ -1,14 +1,7 @@
-function adjustAllViews() {
-    const containers = document.getElementsByClassName('container');
-    for (i = 0; i < container.length; i++) {
-        adjustView(containers[i]);
-    }
-}
-
 function adjustView(container) {
     adjustGrid(container);
-    adjustScoreboardCorner(container);
-    adjustScoreFontSize(container);
+    adjustSectionCorner(container);
+    adjustContentFontSize(container);
 }
 
 function adjustGrid(container) {
@@ -31,19 +24,26 @@ function adjustGrid(container) {
     container.style.gridTemplateColumns = AUTO.repeat(optimalColumns.value);
 }
 
-function adjustScoreboardCorner(container) {
-    const scoreboard = container.querySelector('.scoreboard')[0];
+function getScoreboardRatio(container, columns) {
+    const rows = container.count / columns;
+    return (container.offsetWidth / columns) / (container.offsetHeight / rows);
+}
+
+function adjustSectionCorner(container) {
+    if (!container) {
+        return;
+    }
+    const scoreboard = container.querySelector('.scoreboard');
     if (!scoreboard) {
         return;
     }
-
-    const time = container.querySelector('.time')[0];
+    const time = container.querySelectorAll('.time')[0];
     let fontSize = Math.min(scoreboard.offsetHeight, 16);
-    setScoreboardCornerFontSize(container, fontSize);
+    setSectionCornerFontSize(container, fontSize);
 
     while (timeTooBig(time, scoreboard) && fontSize > 1) {
         fontSize--;
-        setScoreboardCornerFontSize(container, fontSize);
+        setSectionCornerFontSize(container, fontSize);
     }
 }
 
@@ -51,56 +51,61 @@ function timeTooBig(time, scoreboard) {
     return scoreboard.getBoundingClientRect().bottom - time.getBoundingClientRect().bottom < 5;
 }
 
-function setScoreboardCornerFontSize(container, fontSize) {
-    const times = container.querySelector('.scoreboardCorner');
+function setSectionCornerFontSize(container, fontSize) {
+    const times = container.querySelectorAll('.sectionCorner');
     for (i = 0; i < times.length; i++) {
         times[i].style.fontSize = fontSize + 'px';
     }
 }
 
-function adjustScoreFontSize(container) {
-    const scoreboards = container.querySelector('.scoreboard');
-    if (!scoreboards[0]) {
+function adjustContentFontSize(container) {
+    if (!container) {
         return;
     }
-    const scores = container.querySelector('.score');
-    const width = scoreboards[0].offsetWidth;
-    const height = scoreboards[0].offsetHeight;
+    const sections = container.querySelectorAll('.containerSection');
+    if (!sections || !sections[0]) {
+        return;
+    }
+    const contents = container.querySelectorAll('.containerSectionMainContent');
+    const width = sections[0].offsetWidth;
+    const height = sections[0].offsetHeight;
     let fontSize = Math.min(width, height, 50);
-    setScoreFontSize(container, fontSize);
+    setContentFontSize(container, fontSize);
 
-    for (i = 0; i < scores.length; i++) {
-        if (fontSize < 10) {
+    for (i = 0; i < contents.length; i++) {
+        if (fontSize <= 12) {
             break;
         }
-        if (scoreTooBig(scores[i], scoreboards[i])) {
+        if (contentTooBig(contents[i], sections[i])) {
             fontSize--;
-            setScoreFontSize(container, fontSize);
+            setContentFontSize(container, fontSize);
             i = 0;
         }
     }
 }
 
-function scoreTooBig(score, scoreboard) {
-    if (scoreboard.offsetHeight - score.offsetHeight < 10) {
+function contentTooBig(content, section) {
+    if (section.offsetWidth - content.offsetWidth < 10) {
         return true;
     }
-    const scoreSpan = score.firstChild.getBoundingClientRect();
-    const time = scoreboard.firstChild.getBoundingClientRect();
-    if (scoreSpan.top < time.bottom && scoreSpan.left < time.right) {
+    if (section.offsetHeight - content.offsetHeight < 10) {
         return true;
+    }
+    const contentSpan = content.querySelector('.contentSpan');
+    const corner = section.querySelector('.sectionCorner')
+    if (contentSpan && corner) {
+        const contentBox = contentSpan.getBoundingClientRect();
+        const cornerBox = corner.getBoundingClientRect();
+        if (contentBox.top < cornerBox.bottom && contentBox.left < cornerBox.right) {
+            return true;
+        }
     }
     return false;
 }
 
-function setScoreFontSize(container, fontSize) {
-    const spans = container.querySelector('.scoreSpan');
+function setContentFontSize(container, fontSize) {
+    const spans = container.querySelectorAll('.contentSpan');
     for (i = 0; i < spans.length; i++) {
         spans[i].style.fontSize = fontSize + 'px';
     }
-}
-
-function getScoreboardRatio(container, columns) {
-    const rows = container.count / columns;
-    return (container.offsetWidth / columns) / (container.offsetHeight / rows);
 }

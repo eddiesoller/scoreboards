@@ -1,15 +1,27 @@
 const AUTO = "auto ";
 let homeContainer;
-let addButton;
+let leagueContainer;
+let nbaContainer;
+let nflContainer;
+let nhlContainer;
 
 window.addEventListener('load', () => {
     document.body.appendChild(createHeader());
+    leagueContainer = createLeagueContainer();
+    document.body.appendChild(leagueContainer);
     homeContainer = createHomeContainer();
     document.body.appendChild(homeContainer);
+    nbaContainer = createNbaContainer();
+    document.body.appendChild(nbaContainer);
+    nflContainer = createNflContainer();
+    document.body.appendChild(nflContainer);
+    nhlContainer = createNhlContainer();
+    document.body.appendChild(nhlContainer);
+    showContainer(leagueContainer);
 })
 
 window.addEventListener('resize', () => {
-    adjustAllViews();
+    adjustView(getActiveContainer());
 })
 
 document.addEventListener('keypress', () => {
@@ -35,10 +47,16 @@ function createHeaderSpan() {
 
 function createMenu() {
     const menu = document.createElement('div');
+    menu.id = 'menuButton';
     menu.classList.add('menu');
     menu.classList.add('button');
     menu.appendChild(createMenuIcon());
+    menu.addEventListener('click', () => menuClick());
     return menu;
+}
+
+function menuClick() {
+    showContainer(leagueContainer);
 }
 
 function createMenuIcon() {
@@ -49,26 +67,10 @@ function createMenuIcon() {
 
 function createAddButton() {
     const addButton = document.createElement('div');
-    addButton.classList.add('addButton');
-    addButton.classList.add('button');
+    addButton.classList.add('addButton', 'button');
     addButton.textContent = '+';
     addButton.addEventListener('click', () => addClick());
     return addButton;
 }
 
-function addClick() {
-    seedGames();
-}
-
-function createContainer() {
-    const container = document.createElement('div');
-    container.classList.add('container');
-    return container;
-}
-
-function createHomeContainer() {
-    const homeContainer = createContainer();
-    homeContainer.id = 'homeContainer';
-    homeContainer.count = 0;
-    return homeContainer;
-}
+function addClick() {}
