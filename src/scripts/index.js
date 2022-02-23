@@ -32,6 +32,7 @@ document.addEventListener('keypress', () => {
 function createHeader() {
     const header = document.createElement('div');
     header.classList.add('header');
+    header.appendChild(createInfoButton());
     header.appendChild(createHomeButton());
     header.appendChild(createHeaderSpan());
     header.appendChild(createRefreshButton());
@@ -57,6 +58,22 @@ function createHomeButton() {
 function createHomeButtonIcon() {
     const icon = document.createElement('i');
     icon.classList = 'fa fa-home';
+    return icon;
+}
+
+function createInfoButton() {
+    const infoButton = document.createElement('div');
+    infoButton.id = 'infoButton';
+    infoButton.classList.add('button', 'upperRightButton');
+    infoButton.appendChild(createInfoButtonIcon());
+    infoButton.style.display = 'none';
+    infoButton.addEventListener('click', () => {});
+    return infoButton;
+}
+
+function createInfoButtonIcon() {
+    const icon = document.createElement('i');
+    icon.classList = 'fa fa-info';
     return icon;
 }
 

@@ -61,9 +61,11 @@ function showContainer(container) {
     if (container === homeContainer) {
         document.getElementById('homeButton').classList.add('disabledButton');
         document.getElementById('refreshButton').style.display = 'none';
+        document.getElementById('infoButton').style.display = 'block';
     } else {
         document.getElementById('homeButton').classList.remove('disabledButton');
         document.getElementById('refreshButton').style.display = 'block';
+        document.getElementById('infoButton').style.display = 'none';
     }
 }
 
