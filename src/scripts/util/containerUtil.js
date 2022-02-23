@@ -59,9 +59,9 @@ function showContainer(container) {
     }
     adjustView(container);
     if (container === homeContainer) {
-        document.getElementById('menuButton').classList.add('disabledButton');
+        document.getElementById('homeButton').classList.add('disabledButton');
     } else {
-        document.getElementById('menuButton').classList.remove('disabledButton');
+        document.getElementById('homeButton').classList.remove('disabledButton');
     }
 }
 

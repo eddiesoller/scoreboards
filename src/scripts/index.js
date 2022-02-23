@@ -32,7 +32,7 @@ document.addEventListener('keypress', () => {
 function createHeader() {
     const header = document.createElement('div');
     header.classList.add('header');
-    header.appendChild(createMenu());
+    header.appendChild(createHomeButton());
     header.appendChild(createHeaderSpan());
     header.appendChild(createAddButton());
     return header;
@@ -45,23 +45,18 @@ function createHeaderSpan() {
     return span;
 }
 
-function createMenu() {
+function createHomeButton() {
     const menu = document.createElement('div');
-    menu.id = 'menuButton';
-    menu.classList.add('menu');
+    menu.id = 'homeButton';
     menu.classList.add('button');
-    menu.appendChild(createMenuIcon());
-    menu.addEventListener('click', () => menuClick());
+    menu.appendChild(createHomeButtonIcon());
+    menu.addEventListener('click', () => showContainer(homeContainer));
     return menu;
 }
 
-function menuClick() {
-    showContainer(homeContainer);
-}
-
-function createMenuIcon() {
+function createHomeButtonIcon() {
     const icon = document.createElement('i');
-    icon.classList = 'fa fa-bars';
+    icon.classList = 'fa fa-home';
     return icon;
 }
 
