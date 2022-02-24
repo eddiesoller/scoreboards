@@ -1,22 +1,26 @@
-function createScoreboard(id, periodType, periodNumber, clock, awayTeam, awayScore, homeTeam, homeScore) {
+function createScoreboard(id, started, ended, startTime, periodType, periodNumber, clock, awayTeam, awayScore, homeTeam, homeScore) {
     const scoreboard = document.createElement('div');
     scoreboard.id = id;
     scoreboard.classList.add('containerSection', 'scoreboard');
-    scoreboard.appendChild(createTime(periodType, periodNumber, clock));
+    scoreboard.appendChild(createTime(started, ended, startTime, periodType, periodNumber, clock));
     scoreboard.appendChild(createActionButton());
     scoreboard.appendChild(createScore(awayTeam, awayScore, homeTeam, homeScore));
     return scoreboard;
 }
 
 function createNbaScoreboard(game) {
+    const started = game.period.current !== 0;
+    const ended = true && game.endTimeUTC;
     const awayTeam = game.vTeam;
     const homeTeam = game.hTeam;
-    return createScoreboard(game.gameId, 'Q', game.period.current, game.clock, awayTeam.triCode, awayTeam.score, homeTeam.triCode, homeTeam.score);
+    return createScoreboard(game.gameId, started, ended, game.startTimeUTC, 'Q', game.period.current, game.clock, awayTeam.triCode, awayTeam.score, homeTeam.triCode, homeTeam.score);
 }
 
 function createNflScoreboard(game) {
     const competition = game.competitions[0];
     const status = competition.status;
+    const started = true; // TODO
+    const ended = status.type.completed;
     const competitors = competition.competitors;
     let awayTeam;
     let homeTeam;
@@ -27,23 +31,31 @@ function createNflScoreboard(game) {
         awayTeam = competitors[1];
         homeTeam = competitors[0];
     }
-    return createScoreboard(game.id, 'Q', status.period, pad(status.displayClock, 5), awayTeam.team.abbreviation, awayTeam.score, homeTeam.team.abbreviation, homeTeam.score);
+    return createScoreboard(game.id, started, ended, competition.startDate, 'Q', status.period, pad(status.displayClock, 5), awayTeam.team.abbreviation, awayTeam.score, homeTeam.team.abbreviation, homeTeam.score);
 }
 
 function createNhlScoreboard(game) {
+    const started = game.status.statusCode !== '1';
+    const ended = game.status.statusCode === '7';
     const linescore = game.linescore;
     const awayTeam = linescore.teams.away;
     const homeTeam = linescore.teams.home;
-    return createScoreboard(game.gamePk, 'P', linescore.currentPeriod, linescore.currentPeriodTimeRemaining, getNhlTeamAbbreviation(awayTeam.team.id), awayTeam.goals, getNhlTeamAbbreviation(homeTeam.team.id), homeTeam.goals);
+    return createScoreboard(game.gamePk, started, ended, game.gameDate, 'P', linescore.currentPeriod, linescore.currentPeriodTimeRemaining, getNhlTeamAbbreviation(awayTeam.team.id), awayTeam.goals, getNhlTeamAbbreviation(homeTeam.team.id), homeTeam.goals);
 }
 
-function createTime(periodType, periodNumber, clock) {
-    if (!clock || clock === 'Final' || clock === 'END') {
-        clock = "00:00";
-    }
+function createTime(started, ended, startTime, periodType, periodNumber, clock) {
     const time = document.createElement('div');
     time.classList.add('time', 'sectionCorner');
-    time.textContent = periodType + periodNumber + ' ' + clock;
+
+    if (!started) {
+        const localStartTime = new Date(startTime);
+        time.textContent = localStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else if (ended) {
+        time.textContent = 'Final';
+    } else {
+        time.textContent = periodType + periodNumber + ' ' + clock;
+    }
+
     return time;
 }
 
