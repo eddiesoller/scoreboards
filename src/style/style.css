@@ -82,7 +82,7 @@ body {
     border-radius: 10px 0;
 }
 
-.closeButton {
+.actionButton {
     top: 0;
     right: 0;
     border-left: solid;

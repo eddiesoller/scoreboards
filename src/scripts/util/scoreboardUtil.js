@@ -3,7 +3,7 @@ function createScoreboard(id, periodType, periodNumber, clock, awayTeam, awaySco
     scoreboard.id = id;
     scoreboard.classList.add('containerSection', 'scoreboard');
     scoreboard.appendChild(createTime(periodType, periodNumber, clock));
-    // scoreboard.appendChild(createCloseButton(id));
+    scoreboard.appendChild(createActionButton());
     scoreboard.appendChild(createScore(awayTeam, awayScore, homeTeam, homeScore));
     return scoreboard;
 }
@@ -47,17 +47,32 @@ function createTime(periodType, periodNumber, clock) {
     return time;
 }
 
-function createCloseButton(parentId) {
-    const closeButton = document.createElement('div');
-    closeButton.classList.add('closeButton', 'sectionCorner', 'button');
-    closeButton.textContent = 'X';
-    closeButton.addEventListener('click', (foo) => {
-        const scoreboard = document.getElementById(parentId);
-        scoreboard.remove();
-        myScoresContainer.count--;
-        adjustView(myScoresContainer);
-    })
-    return closeButton;
+function createActionButton() {
+    const actionButton = document.createElement('div');
+    actionButton.classList.add('actionButton', 'sectionCorner', 'button');
+    actionButton.textContent = '+';
+    actionButton.addEventListener('click', () => addToMyScores(actionButton));
+    return actionButton;
+}
+
+function addToMyScores(actionButton) {
+    const scoreboard = actionButton.parentElement;
+    if (!document.getElementById(`${scoreboard.id}MyScoreboard`)) {
+        const myScoreboard = scoreboard.cloneNode(true);
+        myScoreboard.id += 'MyScoreboard';
+        const myActionButton = myScoreboard.querySelector('.actionButton');
+        myActionButton.textContent = '-';
+        myActionButton.addEventListener('click', () => removeFromMyScores(myScoreboard));
+        addToContainer(myScoresContainer, myScoreboard);
+    }
+    showContainer(myScoresContainer);
+    adjustView(myScoresContainer);
+}
+
+function removeFromMyScores(myScoreboard) {
+    myScoreboard.remove();
+    myScoresContainer.count--;
+    adjustView(myScoresContainer);
 }
 
 function createScore(awayTeam, awayScore, homeTeam, homeScore) {
