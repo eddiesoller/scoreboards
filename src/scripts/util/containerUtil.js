@@ -16,8 +16,15 @@ function createHomeContainer() {
 function createInfoContainer() {
     const infoContainer = createContainer();
     infoContainer.id = 'infoContainer';
-    infoContainer.textContent = 'this is the info page';
+    infoContainer.appendChild(createInfoContainerContent());
     return infoContainer;
+}
+
+function createInfoContainerContent() {
+    const content = document.createElement('div');
+    content.classList.add('containerSectionMainContent');
+    content.appendChild(document.createTextNode('welcome to scoreboards.'));
+    return content;
 }
 
 function createMyScoresContainer() {

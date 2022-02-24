@@ -1,2 +1,2 @@
 # scoreboards
-web app that displays live sport scores in a auto sizing grid.
+web app that displays live sport scores in an auto sizing grid.
