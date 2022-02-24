@@ -13,7 +13,9 @@ function createNbaScoreboard(game) {
     const ended = true && game.endTimeUTC;
     const awayTeam = game.vTeam;
     const homeTeam = game.hTeam;
-    return createScoreboard(game.gameId, started, ended, game.startTimeUTC, 'Q', game.period.current, game.clock, awayTeam.triCode, awayTeam.score, homeTeam.triCode, homeTeam.score);
+    const scoreboard = createScoreboard(game.gameId, started, ended, game.startTimeUTC, 'Q', game.period.current, game.clock, awayTeam.triCode, awayTeam.score, homeTeam.triCode, homeTeam.score);
+    scoreboard.league = 'nba';
+    return scoreboard;
 }
 
 function createNflScoreboard(game) {
@@ -31,7 +33,9 @@ function createNflScoreboard(game) {
         awayTeam = competitors[1];
         homeTeam = competitors[0];
     }
-    return createScoreboard(game.id, started, ended, competition.startDate, 'Q', status.period, pad(status.displayClock, 5), awayTeam.team.abbreviation, awayTeam.score, homeTeam.team.abbreviation, homeTeam.score);
+    const scoreboard = createScoreboard(game.id, started, ended, competition.startDate, 'Q', status.period, pad(status.displayClock, 5), awayTeam.team.abbreviation, awayTeam.score, homeTeam.team.abbreviation, homeTeam.score);
+    scoreboard.league = 'nfl';
+    return scoreboard;
 }
 
 function createNhlScoreboard(game) {
@@ -40,7 +44,9 @@ function createNhlScoreboard(game) {
     const linescore = game.linescore;
     const awayTeam = linescore.teams.away;
     const homeTeam = linescore.teams.home;
-    return createScoreboard(game.gamePk, started, ended, game.gameDate, 'P', linescore.currentPeriod, linescore.currentPeriodTimeRemaining, getNhlTeamAbbreviation(awayTeam.team.id), awayTeam.goals, getNhlTeamAbbreviation(homeTeam.team.id), homeTeam.goals);
+    const scoreboard = createScoreboard(game.gamePk, started, ended, game.gameDate, 'P', linescore.currentPeriod, linescore.currentPeriodTimeRemaining, getNhlTeamAbbreviation(awayTeam.team.id), awayTeam.goals, getNhlTeamAbbreviation(homeTeam.team.id), homeTeam.goals);
+    scoreboard.league = 'nhl';
+    return scoreboard;
 }
 
 function createTime(started, ended, startTime, periodType, periodNumber, clock) {
@@ -73,12 +79,34 @@ function addToMyScores(actionButton) {
         const myScoreboard = scoreboard.cloneNode(true);
         myScoreboard.id += 'MyScoreboard';
         const myActionButton = myScoreboard.querySelector('.actionButton');
-        myActionButton.textContent = '-';
+        myActionButton.textContent = '';
+        myActionButton.appendChild(createLeagueIcon(scoreboard.league));
         myActionButton.addEventListener('click', () => removeFromMyScores(myScoreboard));
         addToContainer(myScoresContainer, myScoreboard);
     }
     showContainer(myScoresContainer);
     adjustView(myScoresContainer);
+}
+
+function createLeagueIcon(league) {
+    const icon = document.createElement('i');
+    switch (league) {
+        case 'nba':
+            icon.classList = 'fa-solid fa-basketball';
+            break;
+
+        case 'nfl':
+            icon.classList = 'fa-solid fa-football';
+            break;
+
+        case 'nhl':
+            icon.classList = 'fa-solid fa-hockey-puck';
+            break;
+
+        default:
+            console.log('unrecognized league' + league);
+    }
+    return icon;
 }
 
 function removeFromMyScores(myScoreboard) {

@@ -60,7 +60,7 @@ function createHomeButton() {
 
 function createHomeButtonIcon() {
     const icon = document.createElement('i');
-    icon.classList = 'fa fa-home';
+    icon.classList = 'fa-solid fa-home';
     return icon;
 }
 
@@ -76,7 +76,7 @@ function createInfoButton() {
 
 function createInfoButtonIcon() {
     const icon = document.createElement('i');
-    icon.classList = 'fa fa-info';
+    icon.classList = 'fa-solid fa-info';
     return icon;
 }
 
@@ -92,6 +92,6 @@ function createRefreshButton() {
 
 function createRefreshButtonIcon() {
     const icon = document.createElement('i');
-    icon.classList = 'fa fa-refresh';
+    icon.classList = 'fa-solid fa-refresh';
     return icon;
 }
