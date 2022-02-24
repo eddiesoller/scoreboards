@@ -20,8 +20,8 @@ function createHomeSectionSpan(name) {
     return span;
 }
 
-function createMyScoreboards() {
-    const league = createHomeSection('MY SCOREBOARDS');
+function createMyScores() {
+    const league = createHomeSection('MY SCORES');
     league.addEventListener('click', () => {
         showContainer(myScoresContainer);
     })

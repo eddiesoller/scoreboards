@@ -1,5 +1,5 @@
 function seedLeagues(container) {
-    addToContainer(container, createMyScoreboards());
+    addToContainer(container, createMyScores());
     addToContainer(container, createNbaHomeSection());
     addToContainer(container, createNflHomeSection());
     addToContainer(container, createNhlHomeSection());
