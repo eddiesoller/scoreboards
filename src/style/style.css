@@ -104,3 +104,7 @@ body {
 .contentSpan {
     display: inline-block;
 }
+
+.winner {
+    font-weight: bold;
+}
