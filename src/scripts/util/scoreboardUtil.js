@@ -4,7 +4,7 @@ function createScoreboard(id, started, ended, startTime, periodType, periodNumbe
     scoreboard.classList.add('containerSection', 'scoreboard');
     scoreboard.appendChild(createTime(started, ended, startTime, periodType, periodNumber, clock));
     scoreboard.appendChild(createActionButton());
-    scoreboard.appendChild(createScore(awayTeam, awayScore, homeTeam, homeScore));
+    scoreboard.appendChild(createScore(started, awayTeam, awayScore, homeTeam, homeScore));
     return scoreboard;
 }
 
@@ -87,19 +87,22 @@ function removeFromMyScores(myScoreboard) {
     adjustView(myScoresContainer);
 }
 
-function createScore(awayTeam, awayScore, homeTeam, homeScore) {
+function createScore(started, awayTeam, awayScore, homeTeam, homeScore) {
     const score = document.createElement('div');
     score.classList.add('score', 'containerSectionMainContent');
-    score.appendChild(createTeamScore(awayTeam, awayScore));
+    score.appendChild(createTeamScore(started, awayTeam, awayScore));
     score.appendChild(createAt());
-    score.appendChild(createTeamScore(homeTeam, homeScore));
+    score.appendChild(createTeamScore(started, homeTeam, homeScore));
     return score;
 }
 
-function createTeamScore(team, score) {
+function createTeamScore(started, team, score) {
     const span = document.createElement('span');
     span.classList.add('contentSpan', 'scoreSpan');
-    span.textContent = team + ' ' + score;
+    span.textContent = team;
+    if (started) {
+        span.textContent += ' ' + score;
+    }
     return span;
 }
 
