@@ -9,6 +9,7 @@ function createContainer() {
 function createHomeContainer() {
     const homeContainer = createContainer();
     homeContainer.id = 'homeContainer';
+    homeContainer.name = 'SCOREBOARDS';
     seedLeagues(homeContainer);
     return homeContainer;
 }
@@ -16,6 +17,7 @@ function createHomeContainer() {
 function createInfoContainer() {
     const infoContainer = createContainer();
     infoContainer.id = 'infoContainer';
+    infoContainer.name = 'INFO';
     infoContainer.appendChild(createInfoContainerContent());
     return infoContainer;
 }
@@ -30,12 +32,14 @@ function createInfoContainerContent() {
 function createMyScoresContainer() {
     const myScoresContainer = createContainer();
     myScoresContainer.id = 'myScoresContainer';
+    myScoresContainer.name = 'MY SCORES';
     return myScoresContainer;
 }
 
 function createNbaContainer() {
     const nbaContainer = createContainer();
     nbaContainer.id = 'nbaContainer';
+    nbaContainer.name = 'NBA';
     seedNbaGames(nbaContainer);
     return nbaContainer;
 }
@@ -43,6 +47,7 @@ function createNbaContainer() {
 function createNflContainer() {
     const nflContainer = createContainer();
     nflContainer.id = 'nflContainer';
+    nflContainer.name = 'NFL';
     seedNflGames(nflContainer);
     return nflContainer;
 }
@@ -50,6 +55,7 @@ function createNflContainer() {
 function createNhlContainer() {
     const nhlContainer = createContainer();
     nhlContainer.id = 'nhlContainer';
+    nhlContainer.name = 'NHL';
     seedNhlGames(nhlContainer);
     return nhlContainer;
 }
@@ -71,6 +77,7 @@ function showContainer(container) {
             containers[i].style.display = 'none';
         }
     }
+    updateHeader(container.name);
     adjustView(container);
     if (container === homeContainer) {
         document.getElementById('homeButton').classList.add('disabledButton');
@@ -87,6 +94,10 @@ function showContainer(container) {
         document.getElementById('infoButton').style.display = 'none';
         document.getElementById('infoButton').classList.remove('disabledButton');
     }
+}
+
+function updateHeader(title) {
+    document.querySelector('.header>.centerSpan').textContent = title;
 }
 
 function getActiveContainer() {
