@@ -1,14 +1,17 @@
 const AUTO = "auto ";
-let myScoresContainer;
 let homeContainer;
+let infoContainer;
+let myScoresContainer;
 let nbaContainer;
 let nflContainer;
 let nhlContainer;
 
 window.addEventListener('load', () => {
     document.body.appendChild(createHeader());
-    homeContainer = createHomeSectionContainer();
+    homeContainer = createHomeContainer();
     document.body.appendChild(homeContainer);
+    infoContainer = createInfoContainer();
+    document.body.appendChild(infoContainer);
     myScoresContainer = createMyScoresContainer();
     document.body.appendChild(myScoresContainer);
     nbaContainer = createNbaContainer();
@@ -67,7 +70,7 @@ function createInfoButton() {
     infoButton.classList.add('button', 'upperRightButton');
     infoButton.appendChild(createInfoButtonIcon());
     infoButton.style.display = 'none';
-    infoButton.addEventListener('click', () => {});
+    infoButton.addEventListener('click', () => showContainer(infoContainer));
     return infoButton;
 }
 

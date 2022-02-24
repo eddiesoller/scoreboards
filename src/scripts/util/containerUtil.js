@@ -6,17 +6,24 @@ function createContainer() {
     return container;
 }
 
-function createMyScoresContainer() {
-    const myScoresContainer = createContainer();
-    myScoresContainer.id = 'myScoresContainer';
-    return myScoresContainer;
-}
-
-function createHomeSectionContainer() {
+function createHomeContainer() {
     const homeContainer = createContainer();
     homeContainer.id = 'homeContainer';
     seedLeagues(homeContainer);
     return homeContainer;
+}
+
+function createInfoContainer() {
+    const infoContainer = createContainer();
+    infoContainer.id = 'infoContainer';
+    infoContainer.textContent = 'this is the info page';
+    return infoContainer;
+}
+
+function createMyScoresContainer() {
+    const myScoresContainer = createContainer();
+    myScoresContainer.id = 'myScoresContainer';
+    return myScoresContainer;
 }
 
 function createNbaContainer() {
@@ -62,10 +69,16 @@ function showContainer(container) {
         document.getElementById('homeButton').classList.add('disabledButton');
         document.getElementById('refreshButton').style.display = 'none';
         document.getElementById('infoButton').style.display = 'block';
+        document.getElementById('infoButton').classList.remove('disabledButton');
+    } else if (container === infoContainer) {
+        document.getElementById('homeButton').classList.remove('disabledButton');
+        document.getElementById('refreshButton').style.display = 'none';
+        document.getElementById('infoButton').classList.add('disabledButton');
     } else {
         document.getElementById('homeButton').classList.remove('disabledButton');
         document.getElementById('refreshButton').style.display = 'block';
         document.getElementById('infoButton').style.display = 'none';
+        document.getElementById('infoButton').classList.remove('disabledButton');
     }
 }
 
