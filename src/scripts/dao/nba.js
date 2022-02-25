@@ -1,4 +1,7 @@
 function getNbaGames(date) {
+    if (!date) {
+        date = yyyyMmDd();
+    }
     let games;
     const settings = {
         "url": `https://data.nba.net/prod/v2/${date}/scoreboard.json`,

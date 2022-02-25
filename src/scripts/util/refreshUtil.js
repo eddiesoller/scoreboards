@@ -11,7 +11,7 @@ function refreshScores() {
 }
 
 function refreshNbaScores() {
-    const games = getNbaGames(yyyyMmDd());
+    const games = getNbaGames();
     console.log(games);
 }
 

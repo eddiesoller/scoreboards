@@ -9,7 +9,8 @@ function createScoreboard(id, started, ended, startTime, periodType, periodNumbe
 }
 
 function createNbaScoreboard(game) {
-    const started = game.period.current !== 0;
+    const clock = game.clock;
+    const started = game.period.current !== 0 && clock;
     const ended = true && game.endTimeUTC;
     const awayTeam = game.vTeam;
     const homeTeam = game.hTeam;
@@ -59,7 +60,7 @@ function createTime(started, ended, startTime, periodType, periodNumber, clock) 
     } else if (ended) {
         time.textContent = 'Final';
     } else {
-        time.textContent = periodType + periodNumber + ' ' + clock;
+        time.textContent = periodType + periodNumber + ' ' + pad(clock, 5);
     }
 
     return time;
