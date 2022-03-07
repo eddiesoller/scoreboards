@@ -61,8 +61,8 @@ body {
 }
 
 .containerSection {
-    outline: solid;
-    outline-width: thin;
+    border: solid;
+    border-width: thin;
     border-radius: 10px;
     position: relative;
 }
